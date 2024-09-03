@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.17.1",
     "@heroicons/react": "^2.1.5",
     "framer-motion": "^11.3.30",
     "gsap": "^3.12.5",
