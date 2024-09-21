@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { Menu } from 'lucide-react';
+import { Menu,XIcon } from 'lucide-react';
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -48,7 +48,7 @@ export default function Navbar() {
                 {/* Mobile Menu Button */}
                 <div className="md:hidden">
                     <button onClick={toggleMenu} className="focus:outline-none">
-                        <Menu size={24} />
+                        {isOpen?<XIcon size={24} />:<Menu size={24} />}
                     </button>
                 </div>
             </div>
