@@ -25,7 +25,7 @@ export default function Navbar() {
     ];
 
     return (
-        <nav className="nav h-28 w-full text-black">
+        <nav className="nav h-20 w-full text-black fixed z-50 bg-[#ffffff55] backdrop-blur-md sm:h-28">
             <div className="container mx-auto h-full flex items-center justify-between px-4">
                 <div className="font-bold cursor-pointer text-[30px] font-[Gistesy] sm:text-[50px]">Furry Therapy</div>
                 
@@ -55,18 +55,18 @@ export default function Navbar() {
             
             {/* Mobile Menu Dropdown */}
             {isOpen && (
-                <div className="md:hidden bg-white absolute top-28 left-0 w-full shadow-md">
+                <div className="md:hidden bg-[#ffffffcc] backdrop-blur-md absolute top-20 left-0 w-full shadow-md">
                     {menuItems.map((item, index) => (
                         <button
                             key={index}
                             onClick={() => scrollToSection(item.sectionId)}
-                            className="block w-full text-left py-2 px-4 text-sm hover:bg-gray-100 hover:text-[#a17d60]"
+                            className="block w-full text-left py-2 px-4 text-sm hover:text-[#a17d60]"
                         >
                             {item.label}
                         </button>
                     ))}
                     <button
-                        className="block w-full py-2 px-4 text-sm bg-[#e5ded1] text-center mt-2 hover:bg-[#a17d60]"
+                        className="block w-full py-2 px-4 text-sm text-center mt-2 bg-[#a78c76]"
                     >
                         Login
                     </button>

@@ -6,6 +6,8 @@
 body {
   font-family: 'Open Sans','Poppins', sans-serif;
   background-color: #f8f7f6;
+  margin: 0;
+  padding: 0;
 }
 
 @font-face {
