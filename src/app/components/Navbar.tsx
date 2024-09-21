@@ -27,7 +27,7 @@ export default function Navbar() {
     return (
         <nav className="nav h-28 w-full text-black">
             <div className="container mx-auto h-full flex items-center justify-between px-4">
-                <div className="font-bold text-[30px] font-[Gistesy] sm:text-[50px]">Furry Therapy</div>
+                <div className="font-bold cursor-pointer text-[30px] font-[Gistesy] sm:text-[50px]">Furry Therapy</div>
                 
                 {/* Desktop Menu */}
                 <div className="hidden md:flex items-center justify-around space-x-4 w-1/2">
