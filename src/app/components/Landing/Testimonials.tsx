@@ -3,15 +3,15 @@ import Image from 'next/image';
 export default function Testimonials() {
     const testimonials = [
         {
-            text: "“Furry Therapy has brought so much joy into my life. My therapy cat is the best companion I could ask for.”",
+            text: "Furry Therapy has brought so much joy into my life. My therapy cat is the best companion I could ask for.",
             author: "Emily R."
         },
         {
-            text: "“Thanks to Furry Therapy, I found the perfect dog who helps me manage my anxiety. Highly recommended!”",
+            text: "Thanks to Furry Therapy, I found the perfect dog who helps me manage my anxiety. Highly recommended!",
             author: "John D."
         },
         {
-            text: "“I never thought spending time with a rabbit could be so therapeutic. Furry Therapy is amazing!”",
+            text: "I never thought spending time with a rabbit could be so therapeutic. Furry Therapy is amazing.",
             author: "Sarah L."
         }
     ];
@@ -27,13 +27,13 @@ export default function Testimonials() {
             <div className="flex flex-col md:flex-row justify-center items-center w-full">
                 {testimonials.map((testimonial, index) => (
                     <div key={index} className="z-10 w-full max-w-[300px] h-auto md:h-[400px] bg-white bg-opacity-30 backdrop-blur text-center rounded-lg flex flex-col justify-around m-4 md:m-6 items-center p-4 shadow-lg">
-                        <p className='text-lg md:text-xl'>{testimonial.text}</p>
+                        <p className='text-lg md:text-xl'>{"“"+testimonial.text+"”"}</p>
                         <p className="font-[Gistesy] text-3xl md:text-5xl mt-4">-{testimonial.author}</p>
                     </div>
                 ))}
             </div>
             <div className="absolute inset-0 z-0">
-                <Image src="/testimonials.jpeg" alt="testimonials background" layout="fill" objectFit="cover" className='grayscale-[0.3]' />
+                <Image src="/testimonials.jpeg" alt="testimonials background" layout="fill" objectFit="cover" className='opacity-70' />
             </div>
         </div>
     )

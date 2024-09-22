@@ -9,7 +9,7 @@ export default function About() {
                     Furry Therapy is your gateway to emotional well-being through the companionship of adorable pets. We believe in the healing power of animals, and our mission is to bring joy, peace, and comfort to your life. Our dedicated team works tirelessly to connect you with the perfect furry friend, ensuring a therapeutic experience tailored to your unique needs.
                     </p>
             </div>
-            <Image src="/about-us.jpeg" alt="home" fill={true} className="object-cover" />
+            <Image src="/about-us.jpeg" alt="home" fill={true} className="object-cover opacity-70" />
         </div>
     )
 }
