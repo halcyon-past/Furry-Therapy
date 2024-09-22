@@ -14,7 +14,7 @@ export default function HomeSection() {
                 <p className="absolute bottom-5 left-1/2 -translate-x-1/2 rounded-lg bg-[#d7a46f55] z-10 w-10/12 py-2 px-4 text-center backdrop-blur-sm">
                     Swipe through and meet your new furry friend!
                 </p>
-                <Image src="/land-top.jpeg" alt="home" fill={true} className="object-cover rounded-lg" />
+                <Image src="/land-top-2.jpeg" alt="home" fill={true} className="object-cover rounded-lg" />
             </div>
             <div className="bottom flex flex-col justify-around items-center w-full space-y-8 sm:flex-row sm:space-y-0 sm:space-x-4 sm:w-11/12 max-w-5xl">
                 {SlideImages.map((section, index) => (

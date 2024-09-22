@@ -8,7 +8,7 @@ export default function ContactUs() {
                 Have questions or wanted to get started? Reach out to us and we’ll be happy to assist you.
             </div>
             <Link href="mailto:aritro.saha2021@vitstudent.ac.in" target='_blank' className='w-36 h-20 bg-[#ffffff55] backdrop-blur-sm z-10 flex justify-center items-center text-[20px] rounded-lg'>Email Us</Link>
-            <Image src="/contact-us.jpeg" alt="home" fill={true} className="object-cover opacity-70" />
+            <Image src="/contact-us-2.jpeg" alt="home" fill={true} className="object-cover opacity-70" />
         </div>
     )
 }
