@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 
 async function testConnection() {
-    const uri = process.env.MONGODB_URI || 'mongodb+srv://helloworld:helloworld@furry-therapy.yzomu.mongodb.net/?retryWrites=true&w=majority&appName=furry-therapy';
+    const uri = process.env.MONGODB_URI;
 
     // Create a new MongoClient
     const client = new MongoClient(uri);
