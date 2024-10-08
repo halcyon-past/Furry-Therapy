@@ -43,6 +43,7 @@ const authOptions: NextAuthOptions = {
           $set: {
             name: profile.name,
             email: profile.email,
+            image: profile.image,
           },
           $setOnInsert: { createdAt: new Date() },
         },
@@ -61,6 +62,7 @@ const authOptions: NextAuthOptions = {
           throw new Error('No user found')
         }
         token.id = userDoc._id.toString();
+        token.image = userDoc.image; // Store image URL in the token if needed
       }
       return token
     },
