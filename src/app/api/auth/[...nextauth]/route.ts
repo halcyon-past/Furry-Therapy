@@ -41,7 +41,7 @@ const authOptions: NextAuthOptions = {
           name: profile.name ?? '',
           email: profile.email ?? '',
           image: profile.picture ?? null,
-        }
+        };
       },
     }),
   ],
@@ -60,6 +60,8 @@ const authOptions: NextAuthOptions = {
             name: profile.name,
             email: profile.email,
             image: (profile as GoogleProfile).picture,
+            bio: null,
+            needs: [],
           },
           $setOnInsert: { createdAt: new Date() },
         },
