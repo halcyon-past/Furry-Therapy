@@ -1,5 +1,5 @@
 // Importing the utility function
-const { sortByAdjectiveMatches } = require('./petUtils') ;
+const { sortByAdjectiveMatches } = require('@/utils/petUtils') ;
 
 // Example usage
 const targetAdjectives = ["playful", "loving", "loyal"];
