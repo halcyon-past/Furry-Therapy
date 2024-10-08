@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
   try {
     await client.connect();
     const db = client.db('furry-therapy');
-    const collection = db.collection('pets_collection');
+    const collection = db.collection('pet_collection');
 
     await collection.insertOne({
       owner,
