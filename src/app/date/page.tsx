@@ -2,6 +2,8 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { Heart, X } from 'lucide-react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const animals = [
   {
@@ -35,7 +37,20 @@ const animals = [
 ];
 
 export default function Date() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const [currentAnimalIndex, setCurrentAnimalIndex] = useState(0);
+
+  if (status === 'unauthenticated') {
+    router.push('/');
+    return null;
+  }
+
+  if (status === 'loading') {
+    return <div>Loading...</div>;
+  }
+
+
 
   const currentAnimal = animals[currentAnimalIndex];
 
