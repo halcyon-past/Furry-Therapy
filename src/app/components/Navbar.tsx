@@ -1,8 +1,10 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Menu,XIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
+    const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleMenu = () => {
@@ -24,10 +26,18 @@ export default function Navbar() {
         { label: 'Contact Us', sectionId: 'contact' },
     ];
 
+    const login = () => {
+            router.push('/date');
+    }
+
+    const home = () => {
+        router.push('/');
+    }
+
     return (
         <nav className="nav h-20 w-full text-black fixed z-50 bg-[#ffffff55] backdrop-blur-md sm:h-28">
             <div className="container mx-auto h-full flex items-center justify-between px-4">
-                <div className="font-bold cursor-pointer text-[30px] font-[Gistesy] sm:text-[50px]">Furry Therapy</div>
+                <div className="font-bold cursor-pointer text-[30px] font-[Gistesy] sm:text-[50px]" onClick={home}>Furry Therapy</div>
                 
                 {/* Desktop Menu */}
                 <div className="hidden md:flex items-center justify-around space-x-4 w-1/2">
@@ -40,7 +50,7 @@ export default function Navbar() {
                             {item.label}
                         </button>
                     ))}
-                    <button className="bg-[#e5ded1] flex justify-center items-center rounded-lg w-24 h-10 hover:bg-[#a17d60]">
+                    <button className="bg-[#e5ded1] flex justify-center items-center rounded-lg w-24 h-10 hover:bg-[#a17d60]" onClick={login}>
                         Login
                     </button>
                 </div>
@@ -67,6 +77,7 @@ export default function Navbar() {
                     ))}
                     <button
                         className="block w-full py-2 px-4 text-sm text-center mt-2 bg-[#a78c76]"
+                        onClick={login}
                     >
                         Login
                     </button>

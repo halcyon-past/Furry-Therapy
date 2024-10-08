@@ -9,7 +9,7 @@ export default function HomeSection() {
     ]
 
     return (
-        <div className="w-full min-h-screen pt-28 flex flex-col justify-between items-center pb-8">
+        <div className="w-full min-h-screen flex flex-col justify-between items-center pb-8">
             <div className="top w-11/12 max-w-5xl aspect-[3/2] relative mb-8 sm:aspect-[16/5]">
                 <p className="absolute bottom-5 left-1/2 -translate-x-1/2 rounded-lg bg-[#d7a46f55] z-10 w-10/12 py-2 px-4 text-center backdrop-blur-sm">
                     Swipe through and meet your new furry friend!
