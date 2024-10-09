@@ -53,21 +53,37 @@ const authOptions: NextAuthOptions = {
       }
 
       const { db } = await connectToDatabase();
+      // Find the user in the database
+      const userDoc = await db.collection('users').findOne({ email: profile.email });
 
-      await db.collection('users').updateOne(
-        { email: profile.email },
-        {
-          $set: {
-            name: profile.name,
-            email: profile.email,
-            image: (profile as GoogleProfile).picture,
-            bio: null,
-            needs: [],
+      if (userDoc) {
+        // If the user already exists, just update the name and image
+        await db.collection('users').updateOne(
+          { email: profile.email },
+          {
+            $set: {
+              name: profile.name,
+              image: (profile as GoogleProfile).picture,
+            },
+          }
+        );
+      } else {
+        // If the user does not exist, initialize the fields
+        await db.collection('users').updateOne(
+          { email: profile.email },
+          {
+            $set: {
+              name: profile.name,
+              email: profile.email,
+              image: (profile as GoogleProfile).picture,
+              bio: null, // Initialize only when creating a new user
+              needs: [], // Initialize only when creating a new user
+            },
+            $setOnInsert: { createdAt: new Date() }, // Ensure createdAt is set on insert
           },
-          $setOnInsert: { createdAt: new Date() },
-        },
-        { upsert: true }
-      );
+          { upsert: true } // Insert if it does not exist
+        );
+      }
 
       return true;
     },
