@@ -6,7 +6,27 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { animals } from '@/utils/dummyData';
 
-const DateCard = ({ animal }) => (
+// Define an interface for the Animal type
+interface Animal {
+  name: string;
+  age: number;
+  species: string;
+  breed: string;
+  bio: string;
+  image: string;
+  location: string;
+  weight: string;
+  vaccinationStatus: string;
+  personalityTraits: string[];
+  interests: string[];
+  favoriteFoods: string[];
+}
+
+interface DateCardProps {
+  animal: Animal;
+}
+
+const DateCard: React.FC<DateCardProps> = ({ animal }) => (
   <div className="w-full max-w-sm bg-white rounded-xl shadow-2xl overflow-hidden">
     <div className="relative w-full h-72">
       <Image
@@ -24,16 +44,26 @@ const DateCard = ({ animal }) => (
     </div>
     <div className="p-6 overflow-y-auto max-h-[calc(100vh-72px-80px)]">
       <div className="flex flex-wrap gap-3 mb-4">
-        <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm"><MapPin size={16} className="inline mr-1" />{animal.location}</span>
-        <span className="px-3 py-1 bg-pink-100 text-pink-800 rounded-full text-sm"><Cake size={16} className="inline mr-1" />{animal.age} years</span>
-        <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm"><Weight size={16} className="inline mr-1" />{animal.weight}</span>
-        <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm"><Syringe size={16} className="inline mr-1" />{animal.vaccinationStatus}</span>
+        <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+          <MapPin size={16} className="inline mr-1" />{animal.location}
+        </span>
+        <span className="px-3 py-1 bg-pink-100 text-pink-800 rounded-full text-sm">
+          <Cake size={16} className="inline mr-1" />{animal.age} years
+        </span>
+        <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
+          <Weight size={16} className="inline mr-1" />{animal.weight}
+        </span>
+        <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">
+          <Syringe size={16} className="inline mr-1" />{animal.vaccinationStatus}
+        </span>
       </div>
       <p className="text-gray-700 mb-4">{animal.bio}</p>
       <div className="mb-4">
-        <h2 className="font-semibold text-lg mb-2 flex items-center"><PawPrint size={20} className="mr-2" />Personality</h2>
+        <h2 className="font-semibold text-lg mb-2 flex items-center">
+          <PawPrint size={20} className="mr-2" />Personality
+        </h2>
         <div className="flex flex-wrap gap-2">
-          {animal.personalityTraits.map((trait, index) => (
+          {animal.personalityTraits.map((trait: string, index: number) => (
             <span key={index} className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">{trait}</span>
           ))}
         </div>
@@ -41,7 +71,7 @@ const DateCard = ({ animal }) => (
       <div className="mb-4">
         <h2 className="font-semibold text-lg mb-2">Interests</h2>
         <div className="flex flex-wrap gap-2">
-          {animal.interests.map((interest, index) => (
+          {animal.interests.map((interest: string, index: number) => (
             <span key={index} className="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm">{interest}</span>
           ))}
         </div>
@@ -49,7 +79,7 @@ const DateCard = ({ animal }) => (
       <div>
         <h2 className="font-semibold text-lg mb-2">Favorite Foods</h2>
         <div className="flex flex-wrap gap-2">
-          {animal.favoriteFoods.map((food, index) => (
+          {animal.favoriteFoods.map((food: string, index: number) => (
             <span key={index} className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">{food}</span>
           ))}
         </div>
@@ -69,9 +99,11 @@ export default function Date() {
   }
 
   if (status === 'loading') {
-    return <div className="flex items-center justify-center min-h-screen">
-      <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
-    </div>;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
   }
 
   const currentAnimal = animals[currentAnimalIndex];
@@ -92,7 +124,7 @@ export default function Date() {
 
   return (
     <div className="flex flex-col items-center justify-start min-h-screen bg-gradient-to-br p-4">
-      <div className="w-full max-w-sm mb-20"> {/* Added margin-bottom to make room for buttons */}
+      <div className="w-full max-w-sm mb-20">
         <DateCard animal={currentAnimal} />
       </div>
       
