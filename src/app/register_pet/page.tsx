@@ -78,12 +78,12 @@ export default function RegisterPet() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-50 to-blue-200 p-4">
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-lg w-full">
         <h1 className="text-2xl font-bold mb-6 text-center">Register Your Pet</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex flex-col">
-            <label className="text-gray-700">Owner's Name</label>
+            <label className="text-gray-700">Owner&apos;s Name</label>
             <input
               type="text"
               name="owner"
@@ -95,7 +95,7 @@ export default function RegisterPet() {
             />
           </div>
           <div className="flex flex-col">
-            <label className="text-gray-700">Pet's Name</label>
+            <label className="text-gray-700">Pet&apos;s Name</label>
             <input
               type="text"
               name="name"
