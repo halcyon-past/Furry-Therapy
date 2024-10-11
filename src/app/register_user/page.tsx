@@ -15,26 +15,11 @@ export default function RegisterUser() {
     setErrorMessage('');
     setSuccessMessage('');
 
-    if (!session) {
-      setErrorMessage('You need to be logged in to register.');
-      setLoading(false);
-      return;
-    }
-
-    const accessToken = session?.user?.accessToken as string;
-
-    if (!accessToken) {
-      setErrorMessage('Access token is missing.');
-      setLoading(false);
-      return;
-    }
-
     try {
       const response = await fetch('/api/create_user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
         },
         body: JSON.stringify({ bio }),
       });
