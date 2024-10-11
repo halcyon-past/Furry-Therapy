@@ -2,6 +2,7 @@ import { MongoClient } from 'mongodb';
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 import { getUserSession } from '@/lib/session';
+import { traitsArray } from '@/utils/traits';
 
 export async function POST(req: NextRequest) {
     try {
@@ -20,7 +21,7 @@ export async function POST(req: NextRequest) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ paragraph: bio }),
+            body: JSON.stringify({ paragraph: bio, adjectives: traitsArray  }),
         });
 
         if (!analyzeResponse.ok) {
