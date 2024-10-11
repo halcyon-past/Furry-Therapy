@@ -2,18 +2,45 @@
 
 import { useState } from "react";
 
+interface FormData {
+  owner: string;
+  name: string;
+  age: number;
+  species: string;
+  breed: string;
+  gender: string;
+  weight: string;
+  location: string;
+  vaccinationStatus: string;
+  personalityTraits: string[];
+  interests: string;
+  favoriteFoods: string;
+  bio: string;
+  image: string;
+}
+
+const personalityOptions = [
+  "Cheerful", "Friendly", "Active", "Playful", "Gentle", "Loyal", "Calm", "Affectionate", "Energetic", "Curious",
+  "Adventurous", "Protective", "Cuddly", "Quiet", "Loving", "Sociable", "Intelligent", "Observant", "Mellow",
+  "Patient", "Sensitive", "Alert", "Spirited", "Brave", "Lively", "Adaptable", "Confident", "Faithful", 
+  "Gentle-hearted", "Easygoing", "Joyful", "Mischievous", "Nurturing", "Supportive", "Vibrant", "Resourceful",
+  "Charming", "Engaging", "Grounded", "Reliable", "Comforting", "Encouraging", "Humorous", "Peaceful", "Resilient",
+  "Serene", "Sympathetic", "Thoughtful", "Warm", "Whimsical", "Zesty", "Ambitious", "Assertive", "Considerate", 
+  "Determined", "Empathetic"
+];
+
 export default function RegisterPet() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     owner: '',
     name: '',
     age: 0,
     species: '',
     breed: '',
-    gender: '',
+    gender: 'Male', // Default to Male
     weight: '',
     location: '',
     vaccinationStatus: '',
-    personalityTraits: '',
+    personalityTraits: [],
     interests: '',
     favoriteFoods: '',
     bio: '',
@@ -27,19 +54,40 @@ export default function RegisterPet() {
     });
   };
 
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      gender: e.target.value,
+    });
+  };
+
+  const handlePersonalityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedTrait = e.target.value;
+    if (!formData.personalityTraits.includes(selectedTrait)) {
+      setFormData((prevData) => ({
+        ...prevData,
+        personalityTraits: [...prevData.personalityTraits, selectedTrait],
+      }));
+    }
+  };
+
+  const removeTrait = (trait: string) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      personalityTraits: prevData.personalityTraits.filter((t) => t !== trait),
+    }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const personalityTraitsArray = formData.personalityTraits.split(',').map(trait => trait.trim());
-    const interestsArray = formData.interests.split(',').map(interest => interest.trim());
-    const favoriteFoodsArray = formData.favoriteFoods.split(',').map(food => food.trim());
-
     const updatedFormData = {
       ...formData,
-      personalityTraits: personalityTraitsArray,
-      interests: interestsArray,
-      favoriteFoods: favoriteFoodsArray,
+      personalityTraits: formData.personalityTraits.map(trait => trait.trim()),
+      interests: formData.interests.split(',').map(interest => interest.trim()),
+      favoriteFoods: formData.favoriteFoods.split(',').map(food => food.trim()),
     };
+
+    console.log(updatedFormData)
 
     try {
       const response = await fetch('/api/create_pet', {
@@ -58,11 +106,11 @@ export default function RegisterPet() {
           age: 0,
           species: '',
           breed: '',
-          gender: '',
+          gender: 'Male',
           weight: '',
           location: '',
           vaccinationStatus: '',
-          personalityTraits: '',
+          personalityTraits: [],
           interests: '',
           favoriteFoods: '',
           bio: '',
@@ -78,183 +126,187 @@ export default function RegisterPet() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="bg-white shadow-lg rounded-lg p-8 max-w-lg w-full">
-        <h1 className="text-2xl font-bold mb-6 text-center">Register Your Pet</h1>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="flex flex-col">
-            <label className="text-gray-700">Owner&apos;s Name</label>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+      <div className="w-full max-w-md">
+        <h1 className="text-5xl font-extralight text-black mb-12 tracking-wide text-center">Register Your Pet</h1>
+        <form onSubmit={handleSubmit} className="space-y-8">
+          <div className="relative">
             <input
               type="text"
               name="owner"
               value={formData.owner}
               onChange={handleChange}
-              className="border border-gray-300 p-2 rounded"
+              className="w-full px-0 py-2 text-gray-900 bg-transparent border-b-2 border-gray-300 focus:border-black focus:outline-none transition-all duration-300"
               placeholder="Owner's name"
               required
             />
           </div>
-          <div className="flex flex-col">
-            <label className="text-gray-700">Pet&apos;s Name</label>
+          <div className="relative">
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="border border-gray-300 p-2 rounded"
+              className="w-full px-0 py-2 text-gray-900 bg-transparent border-b-2 border-gray-300 focus:border-black focus:outline-none transition-all duration-300"
               placeholder="Pet's name"
               required
             />
           </div>
-          <div className="flex flex-col">
-            <label className="text-gray-700">Age (in years)</label>
+          <div className="relative">
             <input
               type="number"
               name="age"
               value={formData.age}
               onChange={handleChange}
-              className="border border-gray-300 p-2 rounded"
-              placeholder="Age"
+              className="w-full px-0 py-2 text-gray-900 bg-transparent border-b-2 border-gray-300 focus:border-black focus:outline-none transition-all duration-300"
+              placeholder="Age (in years)"
               required
             />
           </div>
-          <div className="flex flex-col">
-            <label className="text-gray-700">Species</label>
+          <div className="relative">
             <input
               type="text"
               name="species"
               value={formData.species}
               onChange={handleChange}
-              className="border border-gray-300 p-2 rounded"
-              placeholder="Species (e.g., Golden Retriever)"
+              className="w-full px-0 py-2 text-gray-900 bg-transparent border-b-2 border-gray-300 focus:border-black focus:outline-none transition-all duration-300"
+              placeholder="Species (e.g., Dog)"
               required
             />
           </div>
-          <div className="flex flex-col">
-            <label className="text-gray-700">Breed</label>
+          <div className="relative">
             <input
               type="text"
               name="breed"
               value={formData.breed}
               onChange={handleChange}
-              className="border border-gray-300 p-2 rounded"
+              className="w-full px-0 py-2 text-gray-900 bg-transparent border-b-2 border-gray-300 focus:border-black focus:outline-none transition-all duration-300"
               placeholder="Breed (e.g., Labrador)"
               required
             />
           </div>
-          <div className="flex flex-col">
-            <label className="text-gray-700">Gender</label>
-            <input
-              type="text"
+          <div className="relative">
+            <select
               name="gender"
               value={formData.gender}
-              onChange={handleChange}
-              className="border border-gray-300 p-2 rounded"
-              placeholder="Gender"
+              onChange={handleSelectChange}
+              className="w-full px-0 py-2 text-gray-900 bg-transparent border-b-2 border-gray-300 focus:border-black focus:outline-none transition-all duration-300"
               required
-            />
+            >
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
           </div>
-          <div className="flex flex-col">
-            <label className="text-gray-700">Weight</label>
+          <div className="relative">
             <input
               type="text"
               name="weight"
               value={formData.weight}
               onChange={handleChange}
-              className="border border-gray-300 p-2 rounded"
+              className="w-full px-0 py-2 text-gray-900 bg-transparent border-b-2 border-gray-300 focus:border-black focus:outline-none transition-all duration-300"
               placeholder="Weight (e.g., 30 lbs)"
               required
             />
           </div>
-          <div className="flex flex-col">
-            <label className="text-gray-700">Location</label>
+          <div className="relative">
             <input
               type="text"
               name="location"
               value={formData.location}
               onChange={handleChange}
-              className="border border-gray-300 p-2 rounded"
+              className="w-full px-0 py-2 text-gray-900 bg-transparent border-b-2 border-gray-300 focus:border-black focus:outline-none transition-all duration-300"
               placeholder="Location (e.g., Los Angeles, CA)"
               required
             />
           </div>
-          <div className="flex flex-col">
-            <label className="text-gray-700">Vaccination Status</label>
+          <div className="relative">
             <input
               type="text"
               name="vaccinationStatus"
               value={formData.vaccinationStatus}
               onChange={handleChange}
-              className="border border-gray-300 p-2 rounded"
+              className="w-full px-0 py-2 text-gray-900 bg-transparent border-b-2 border-gray-300 focus:border-black focus:outline-none transition-all duration-300"
               placeholder="Vaccination Status"
               required
             />
           </div>
-          <div className="flex flex-col">
-            <label className="text-gray-700">Personality Traits (comma-separated)</label>
-            <input
-              type="text"
-              name="personalityTraits"
-              value={formData.personalityTraits}
-              onChange={handleChange}
-              className="border border-gray-300 p-2 rounded"
-              placeholder="Friendly, Energetic, Loyal"
-              required
-            />
+          <div className="relative">
+            <select
+              value=""
+              onChange={handlePersonalityChange}
+              className="w-full px-0 py-2 text-gray-900 bg-transparent border-b-2 border-gray-300 focus:border-black focus:outline-none transition-all duration-300"
+            >
+              <option value="" disabled>Select a Personality Trait</option>
+              {personalityOptions.map(trait => (
+                <option key={trait} value={trait}>{trait}</option>
+              ))}
+            </select>
+            <div className="flex flex-wrap mt-2 space-x-2">
+              {formData.personalityTraits.map((trait, index) => (
+                <div key={index} className="bg-gray-200 rounded-full px-3 py-1 text-sm flex items-center space-x-1">
+                  <span>{trait}</span>
+                  <button
+                    type="button"
+                    onClick={() => removeTrait(trait)}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    &times;
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="flex flex-col">
-            <label className="text-gray-700">Interests (comma-separated)</label>
+          <div className="relative">
             <input
               type="text"
               name="interests"
               value={formData.interests}
               onChange={handleChange}
-              className="border border-gray-300 p-2 rounded"
-              placeholder="Fetching, Swimming, Playing with toys"
+              className="w-full px-0 py-2 text-gray-900 bg-transparent border-b-2 border-gray-300 focus:border-black focus:outline-none transition-all duration-300"
+              placeholder="Interests (comma-separated)"
               required
             />
           </div>
-          <div className="flex flex-col">
-            <label className="text-gray-700">Favorite Foods (comma-separated)</label>
+          <div className="relative">
             <input
               type="text"
               name="favoriteFoods"
               value={formData.favoriteFoods}
               onChange={handleChange}
-              className="border border-gray-300 p-2 rounded"
-              placeholder="Chicken, Peanut Butter"
+              className="w-full px-0 py-2 text-gray-900 bg-transparent border-b-2 border-gray-300 focus:border-black focus:outline-none transition-all duration-300"
+              placeholder="Favorite Foods (comma-separated)"
               required
             />
           </div>
-          <div className="flex flex-col">
-            <label className="text-gray-700">Bio</label>
+          <div className="relative">
             <textarea
               name="bio"
               value={formData.bio}
               onChange={handleChange}
-              className="border border-gray-300 p-2 rounded"
-              placeholder="Loves long walks on the beach and playing fetch!"
+              className="w-full px-0 py-2 text-gray-900 bg-transparent border-b-2 border-gray-300 focus:border-black focus:outline-none transition-all duration-300 resize-none"
+              placeholder="Bio (Tell us your pet's story!)"
               required
             ></textarea>
           </div>
-          <div className="flex flex-col">
-            <label className="text-gray-700">Image URL</label>
+          <div className="relative">
             <input
               type="text"
               name="image"
               value={formData.image}
               onChange={handleChange}
-              className="border border-gray-300 p-2 rounded"
+              className="w-full px-0 py-2 text-gray-900 bg-transparent border-b-2 border-gray-300 focus:border-black focus:outline-none transition-all duration-300"
               placeholder="Image URL"
               required
             />
           </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition-colors"
-          >
-            Register Pet
-          </button>
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              className="px-4 py-2 bg-black text-white font-semibold hover:bg-gray-800 transition-all duration-300 rounded-lg"
+            >
+              Register Pet
+            </button>
+          </div>
         </form>
       </div>
     </div>
