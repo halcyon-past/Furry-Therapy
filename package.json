@@ -11,6 +11,7 @@
   "dependencies": {
     "@google/generative-ai": "^0.17.1",
     "@heroicons/react": "^2.1.5",
+    "@uploadthing/react": "^7.0.3",
     "framer-motion": "^11.3.30",
     "gsap": "^3.12.5",
     "lucide-react": "^0.445.0",
@@ -18,7 +19,8 @@
     "next": "14.2.6",
     "next-auth": "^4.24.8",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "uploadthing": "^7.1.0"
   },
   "devDependencies": {
     "@types/node": "^20",

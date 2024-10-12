@@ -6,7 +6,8 @@ const nextConfig = {
         'www.akc.org',
         'images.ctfassets.net',
         'andy.pet',
-        'via.placeholder.com'
+        'via.placeholder.com',
+        'utfs.io'
       ],
     },
   };
