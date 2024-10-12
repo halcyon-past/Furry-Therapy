@@ -45,6 +45,18 @@ export async function POST(req: NextRequest) {
             }
         );
 
+        const db2 = client.db();
+        const collection2 = db2.collection('users');
+
+        await collection2.updateOne(
+            { email: userEmail },
+            {
+                $set: {
+                    userType: 'user',
+                },
+            }
+        );
+
         client.close();
 
         if (updateResult.modifiedCount === 0) {
