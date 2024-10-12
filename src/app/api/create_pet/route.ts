@@ -85,6 +85,19 @@ export async function POST(req: NextRequest) {
             image,
         });
 
+
+        const db2 = client.db();
+        const collection2 = db2.collection('users');
+
+        await collection2.updateOne(
+            { email: owner },
+            {
+                $set: {
+                    userType: 'pet_owner',
+                },
+            }
+        );
+
         client.close();
 
         return NextResponse.json({ message: 'Stored successfully!' }, { status: 201 });
