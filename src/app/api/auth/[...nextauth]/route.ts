@@ -78,6 +78,7 @@ const authOptions: NextAuthOptions = {
               image: (profile as GoogleProfile).picture,
               bio: null, // Initialize only when creating a new user
               needs: [], // Initialize only when creating a new user
+              userType: 'default', // Initialize with a default userType
             },
             $setOnInsert: { createdAt: new Date() }, // Ensure createdAt is set on insert
           },
@@ -91,6 +92,7 @@ const authOptions: NextAuthOptions = {
       if (token) {
         session.user.id = token.id as string;
         session.user.image = token.image as string | null;
+        session.user.userType = token.userType as string;
       }
       return session;
     },
@@ -102,8 +104,10 @@ const authOptions: NextAuthOptions = {
         if (!userDoc) {
           throw new Error('No user found');
         }
+
         token.id = userDoc._id.toString();
         token.image = userDoc.image;
+        token.userType = userDoc.userType || 'default';
       }
       return token;
     },
