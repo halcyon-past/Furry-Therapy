@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import { useSession } from 'next-auth/react';
 
 interface FormData {
   owner: string;
@@ -30,6 +31,7 @@ const personalityOptions = [
 ];
 
 export default function RegisterPet() {
+  const { data: session, status } = useSession();
   const [formData, setFormData] = useState<FormData>({
     owner: '',
     name: '',
@@ -46,6 +48,15 @@ export default function RegisterPet() {
     bio: '',
     image: '',
   });
+
+  useEffect(() => {
+    if (session && session.user?.email) {
+      setFormData((prevData) => ({
+        ...prevData,
+        owner: session.user.email,
+      }));
+    }
+  }, [session]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -101,7 +112,7 @@ export default function RegisterPet() {
       if (response.ok) {
         alert('Pet registered successfully!');
         setFormData({
-          owner: '',
+          owner: session?.user.email || '',
           name: '',
           age: 0,
           species: '',
@@ -130,17 +141,6 @@ export default function RegisterPet() {
       <div className="w-full max-w-md">
         <h1 className="text-5xl font-extralight text-black mb-12 tracking-wide text-center">Register Your Pet</h1>
         <form onSubmit={handleSubmit} className="space-y-8">
-          <div className="relative">
-            <input
-              type="text"
-              name="owner"
-              value={formData.owner}
-              onChange={handleChange}
-              className="w-full px-0 py-2 text-gray-900 bg-transparent border-b-2 border-gray-300 focus:border-black focus:outline-none transition-all duration-300"
-              placeholder="Owner's name"
-              required
-            />
-          </div>
           <div className="relative">
             <input
               type="text"
