@@ -1,36 +1,12 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Furry Therapy
 
-## Getting Started
+Furry Therapy is an innovative web application designed to bring joy and companionship through animal therapy. Unlike traditional dating apps, Furry Therapy features a user-friendly, Dating App like interface that allows users to choose and book therapy animals for a few hours or an entire day. Whether you're looking for a furry friend to lift your spirits, reduce stress, or simply enjoy some quality time with adorable animals, Furry Therapy makes it easy to connect with a variety of therapy animals in your area.
 
-First, run the development server:
+## Features
+- Intuitive Interface: Swipe through profiles of therapy animals to find the perfect match for your needs.
+- Booking System: Seamlessly book therapy sessions for a few hours or a full day.
+- Animal Profiles: View detailed profiles of available therapy animals, including their personalities, preferences, and availability.
+- User Reviews: Read feedback from other users to help you make informed choices.
+- Location-Based Services: Find therapy animals available near you.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Join us in experiencing the healing power of furry friends with Furry Therapy!
