@@ -2,6 +2,7 @@
 
 import { useState,useEffect } from "react";
 import { useSession } from 'next-auth/react';
+import { traitsArray } from "@/utils/traits";
 
 interface FormData {
   owner: string;
@@ -20,15 +21,7 @@ interface FormData {
   image: string;
 }
 
-const personalityOptions = [
-  "Cheerful", "Friendly", "Active", "Playful", "Gentle", "Loyal", "Calm", "Affectionate", "Energetic", "Curious",
-  "Adventurous", "Protective", "Cuddly", "Quiet", "Loving", "Sociable", "Intelligent", "Observant", "Mellow",
-  "Patient", "Sensitive", "Alert", "Spirited", "Brave", "Lively", "Adaptable", "Confident", "Faithful", 
-  "Gentle-hearted", "Easygoing", "Joyful", "Mischievous", "Nurturing", "Supportive", "Vibrant", "Resourceful",
-  "Charming", "Engaging", "Grounded", "Reliable", "Comforting", "Encouraging", "Humorous", "Peaceful", "Resilient",
-  "Serene", "Sympathetic", "Thoughtful", "Warm", "Whimsical", "Zesty", "Ambitious", "Assertive", "Considerate", 
-  "Determined", "Empathetic"
-];
+const personalityOptions = traitsArray;
 
 export default function RegisterPet() {
   const { data: session, status } = useSession();
