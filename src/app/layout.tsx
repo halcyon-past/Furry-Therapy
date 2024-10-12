@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <ClientLayout> {/* Wrapping the entire app in SessionProvider */}
           <Navbar />
-          <main className="w-full pt-28">{children}</main>
+          <main className="w-full pt-20 md:pt-28">{children}</main>
         </ClientLayout>
       </body>
     </html>
