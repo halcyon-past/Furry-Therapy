@@ -1,8 +1,9 @@
 "use client";
 
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from 'next-auth/react';
 import { traitsArray } from "@/utils/traits";
+import { UploadButton } from "@/utils/uploadthing"; // Make sure to import the UploadButton
 
 interface FormData {
   owner: string;
@@ -276,30 +277,40 @@ export default function RegisterPet() {
               name="bio"
               value={formData.bio}
               onChange={handleChange}
-              className="w-full px-0 py-2 text-gray-900 bg-transparent border-b-2 border-gray-300 focus:border-black focus:outline-none transition-all duration-300 resize-none"
-              placeholder="Bio (Tell us your pet's story!)"
-              required
-            ></textarea>
-          </div>
-          <div className="relative">
-            <input
-              type="text"
-              name="image"
-              value={formData.image}
-              onChange={handleChange}
               className="w-full px-0 py-2 text-gray-900 bg-transparent border-b-2 border-gray-300 focus:border-black focus:outline-none transition-all duration-300"
-              placeholder="Image URL"
+              placeholder="Tell us about your pet"
+              rows={5}
               required
             />
           </div>
-          <div className="flex justify-center">
-            <button
-              type="submit"
-              className="px-4 py-2 bg-black text-white font-semibold hover:bg-gray-800 transition-all duration-300 rounded-lg"
-            >
-              Register Pet
-            </button>
+
+          <div className="relative flex justify-center items-center flex-col">
+            <label className="block text-gray-700">Upload Pet Image</label>
+            <UploadButton
+              endpoint="imageUploader"
+              onClientUploadComplete={(res) => {
+                if (res && res.length > 0) {
+                  setFormData({ ...formData, image: res[0].url });
+                }
+              }}
+              onUploadError={(error) => {
+                console.error('Upload failed:', error);
+                alert('Image upload failed. Please try again.');
+              }}
+            />
+            {formData.image && (
+              <div className="mt-4">
+                <img src={formData.image} alt="Pet" className="w-32 h-32 object-cover" />
+              </div>
+            )}
           </div>
+
+          <button
+            type="submit"
+            className="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition-all duration-300"
+          >
+            Register Pet
+          </button>
         </form>
       </div>
     </div>
