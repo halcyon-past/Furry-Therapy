@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { traitsArray } from "@/utils/traits";
-import { UploadButton } from "@/utils/uploadthing"; // Make sure to import the UploadButton
+import { UploadButton } from "@/utils/uploadthing";
 
 interface FormData {
   owner: string;
@@ -26,6 +27,7 @@ const personalityOptions = traitsArray;
 
 export default function RegisterPet() {
   const { data: session, status } = useSession();
+  const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     owner: '',
     name: '',
@@ -121,6 +123,7 @@ export default function RegisterPet() {
           bio: '',
           image: '',
         });
+        router.push('/my_pets');
       } else {
         alert('Failed to register pet. Please check the input fields.');
       }
