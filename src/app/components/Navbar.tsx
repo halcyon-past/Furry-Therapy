@@ -21,11 +21,21 @@ export default function Navbar() {
         setIsOpen(false);
     };
 
-    const menuItems = [
+    const defaultMenuItems = [
         { label: 'Home', sectionId: 'home' },
         { label: 'About', sectionId: 'about' },
         { label: 'Testimonials', sectionId: 'testimonials' },
         { label: 'Contact Us', sectionId: 'contact' },
+    ];
+
+    const petOwnerMenuItems = [
+        { label: 'My Pets', path: '/my_pets' },
+        { label: 'Add Pet', path: '/register_pet' },
+    ];
+
+    const userMenuItems = [
+        { label: 'Edit Bio', path: '/register_user' },
+        { label: 'Find Dates', path: '/date' },
     ];
 
     const loginWithGoogle = () => {
@@ -40,6 +50,46 @@ export default function Navbar() {
         signOut({ callbackUrl: '/' });
     };
 
+    const renderMenuItems = () => {
+        if (session?.user) {
+            const userType = session.user.userType;
+
+            if (userType === 'pet_owner') {
+                return petOwnerMenuItems.map((item, index) => (
+                    <button 
+                        key={index} 
+                        onClick={() => router.push(item.path)}
+                        className="hover:text-[#a17d60] cursor-pointer mb-4 md:mb-0 md:ml-6"
+                    >
+                        {item.label}
+                    </button>
+                ));
+            }
+
+            if (userType === 'user') {
+                return userMenuItems.map((item, index) => (
+                    <button 
+                        key={index} 
+                        onClick={() => router.push(item.path)}
+                        className="hover:text-[#a17d60] cursor-pointer mb-4 md:mb-0 md:ml-6"
+                    >
+                        {item.label}
+                    </button>
+                ));
+            }
+        }
+
+        return defaultMenuItems.map((item, index) => (
+            <button 
+                key={index} 
+                onClick={() => scrollToSection(item.sectionId)}
+                className="hover:text-[#a17d60] cursor-pointer mb-4 md:mb-0 md:ml-6"
+            >
+                {item.label}
+            </button>
+        ));
+    };
+
     return (
         <nav className="nav h-20 w-full text-black fixed z-50 bg-[#ffffff55] backdrop-blur-md sm:h-28">
             <div className="container mx-auto h-full flex items-center justify-between px-4">
@@ -48,20 +98,11 @@ export default function Navbar() {
                 </div>
                 
                 {/* Desktop Menu */}
-                <div className="hidden md:flex items-center justify-between w-1/2">
-                    {/* Render menu items only if the user is not logged in */}
-                    {!session?.user && menuItems.map((item, index) => (
-                        <button 
-                            key={index} 
-                            onClick={() => scrollToSection(item.sectionId)}
-                            className="hover:text-[#a17d60] cursor-pointer"
-                        >
-                            {item.label}
-                        </button>
-                    ))}
+                <div className="hidden md:flex items-center justify-between space-x-6">
+                    {renderMenuItems()}
 
                     {session?.user ? (
-                        <div className="flex items-center space-x-2 ml-auto">
+                        <div className="flex items-center space-x-4 ml-auto">
                             <img src={session.user?.image || ''} alt={session.user?.name || ''} className="w-8 h-8 rounded-full" />
                             <span>{session.user?.name}</span>
                             <button className="bg-[#e5ded1] flex justify-center items-center rounded-lg w-24 h-10 hover:bg-[#a17d60]" onClick={logout}>
@@ -86,20 +127,11 @@ export default function Navbar() {
             {/* Mobile Menu Dropdown */}
             {isOpen && (
                 <div className="md:hidden bg-[#ffffffcc] backdrop-blur-md absolute top-20 left-0 w-full shadow-md">
-                    <div className="px-4 py-2">
-                        {/* Render menu items only if the user is not logged in */}
-                        {!session?.user && menuItems.map((item, index) => (
-                            <button
-                                key={index}
-                                onClick={() => scrollToSection(item.sectionId)}
-                                className="block w-full text-left py-2 px-4 text-sm hover:text-[#a17d60] transition-all duration-200"
-                            >
-                                {item.label}
-                            </button>
-                        ))}
-                        
+                    <div className="flex flex-col items-center py-4 space-y-4">
+                        {renderMenuItems()}
+
                         {session?.user ? (
-                            <div className="flex items-center justify-between py-2">
+                            <div className="flex flex-col items-center space-y-4">
                                 <div className="flex items-center space-x-2">
                                     <img src={session.user?.image || ''} alt={session.user?.name || ''} className="w-8 h-8 rounded-full" />
                                     <span className="font-medium">{session.user?.name}</span>
