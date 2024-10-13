@@ -1,5 +1,6 @@
 {
   "name": "furry-therapy",
+  "description": "A Therapy Webapp with Animals",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -28,5 +29,14 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/halcyon-past/Furry-Therapy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/halcyon-past/Furry-Therapy/issues"
+  },
+  "author": "Aritro Saha aritrosaha2025@gmail.com",
+  "homepage": "https://furry-therapy.vercel.app/"
 }
