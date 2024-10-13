@@ -1,9 +1,11 @@
 "use client";
 import React, { useState } from 'react';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 export default function RegisterUser() {
   const { data: session, status } = useSession();
+  const router = useRouter();
   const [bio, setBio] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -32,6 +34,7 @@ export default function RegisterUser() {
       const data = await response.json();
       setSuccessMessage(data.message || 'Registration successful!');
       setBio('');
+      router.push('/date');
 
     } catch (error: unknown) {
       if (error instanceof Error) {
