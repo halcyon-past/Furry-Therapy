@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { useRouter } from 'next/navigation';
 import { Edit2, Trash2, MapPin } from "lucide-react";
 
 interface Pet {
@@ -21,6 +22,7 @@ interface Pet {
 
 export default function UserPets() {
     const { data: session } = useSession();
+    const router = useRouter();
     const [pets, setPets] = useState<Pet[]>([]);
 
     useEffect(() => {
@@ -38,6 +40,11 @@ export default function UserPets() {
             fetchPets();
         }
     }, [session]);
+
+    const navigateToAddPet = () => {
+        console.log("Navigate to add pet page");
+        router.push('/register_pet');
+    }
 
     const handleDelete = async (petId: string) => {
         const confirmDelete = confirm("Are you sure you want to delete this pet?");
@@ -75,7 +82,7 @@ export default function UserPets() {
                 {pets.length === 0 ? (
                     <div className="col-span-full text-center">
                         <p className="text-xl text-gray-600">No pets found. Add a new furry friend to see them here!</p>
-                        <button className="mt-4 bg-indigo-500 text-white px-6 py-2 rounded-full hover:bg-indigo-600 transition-colors">
+                        <button className="mt-4 bg-indigo-500 text-white px-6 py-2 rounded-full hover:bg-indigo-600 transition-colors" onClick={navigateToAddPet}>
                             Add a Pet
                         </button>
                     </div>
