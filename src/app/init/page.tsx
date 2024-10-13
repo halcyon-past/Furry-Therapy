@@ -19,6 +19,16 @@ export default function Init() {
     return null;
   }
 
+  if (session?.user.userType=='pet_owner') {
+    router.push('/my_pets');
+    return null;
+  }
+
+  if (session?.user.userType=='user') {
+    router.push('/date');
+    return null;
+  }
+
   const handlePetOwnerRegistration = () => {
     console.log('Pet Owner Registration');
     router.push('/register_pet');
