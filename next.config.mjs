@@ -7,7 +7,8 @@ const nextConfig = {
         'images.ctfassets.net',
         'andy.pet',
         'via.placeholder.com',
-        'utfs.io'
+        'utfs.io',
+        'lh3.googleusercontent.com',
       ],
     },
   };
