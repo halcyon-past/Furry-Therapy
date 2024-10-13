@@ -291,6 +291,12 @@ export default function RegisterPet() {
             <label className="block text-gray-700">Upload Pet Image</label>
             <UploadButton
               endpoint="imageUploader"
+              appearance={{
+                button:
+                  "ut-ready:bg-black ut-uploading:cursor-not-allowed rounded-md bg-gray-500 bg-none after:bg-green-400",
+                allowedContent:
+                  "flex h-8 flex-col items-center justify-center px-2 text-gray-300",
+              }}
               onClientUploadComplete={(res) => {
                 if (res && res.length > 0) {
                   setFormData({ ...formData, image: res[0].url });
