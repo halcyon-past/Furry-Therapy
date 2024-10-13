@@ -39,7 +39,7 @@ export default function Navbar() {
     ];
 
     const loginWithGoogle = () => {
-        signIn('google', { callbackUrl: '/date' });
+        signIn('google', { callbackUrl: '/init' });
     };
 
     const home = () => {
@@ -76,6 +76,10 @@ export default function Navbar() {
                         {item.label}
                     </button>
                 ));
+            }
+
+            if (userType === 'default') {
+                return ;
             }
         }
 
