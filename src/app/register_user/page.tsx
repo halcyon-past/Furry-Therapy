@@ -1,10 +1,10 @@
 "use client";
 import React, { useState } from 'react';
-import { useSession } from 'next-auth/react';
+import { getSession, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 export default function RegisterUser() {
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
   const router = useRouter();
   const [bio, setBio] = useState('');
   const [loading, setLoading] = useState(false);
@@ -34,6 +34,13 @@ export default function RegisterUser() {
       const data = await response.json();
       setSuccessMessage(data.message || 'Registration successful!');
       setBio('');
+
+      /*await fetch('/api/auth/refresh-session')
+      .then((res) => res.json())
+      .then((data) => {
+        // Optionally use `update` method if you want to update the session on the client-side
+        update(data);
+      });*/
       router.push('/date');
 
     } catch (error: unknown) {
