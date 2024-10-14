@@ -13,62 +13,40 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
             );
         }
 
-        const updatedData = await req.json();
-
         const client = new MongoClient(process.env.MONGODB_URI as string);
+        await client.connect();
+        const db = client.db('furry-therapy');
+        const collection = db.collection('pet_collection');
 
-        try {
-            await client.connect();
-            const db = client.db('furry-therapy');
-            const collection = db.collection('pet_collection');
+        const body = await req.json();
 
-            // Find the pet by ID
-            const pet = await collection.findOne({ _id: new ObjectId(petId) });
+        // Remove _id from the update body if it exists
+        delete body._id;
 
-            if (!pet) {
-                return NextResponse.json(
-                    { message: 'No pet found with the given ID.' },
-                    { status: 404 }
-                );
-            }
+        // Update the pet document without modifying the _id field
+        const result = await collection.updateOne(
+            { _id: new ObjectId(petId) },
+            { $set: body }
+        );
 
-            // Update the fields based on provided data
-            const updatedPet = {
-                ...pet, // Keep existing fields
-                ...updatedData, // Overwrite with the new data
-            };
+        client.close();
 
-            // Perform the update operation in MongoDB
-            const result = await collection.updateOne(
-                { _id: new ObjectId(petId) },
-                { $set: updatedPet }
-            );
-
-            if (result.modifiedCount === 0) {
-                return NextResponse.json(
-                    { message: 'No changes were made to the pet.' },
-                    { status: 304 }
-                );
-            }
-
-            client.close();
-
+        if (result.modifiedCount === 0) {
             return NextResponse.json(
-                { message: 'Pet data updated successfully!' },
-                { status: 200 }
-            );
-        } catch (error) {
-            console.error('Error updating the pet:', error);
-            return NextResponse.json(
-                { message: 'Failed to update the pet.' },
-                { status: 500 }
+                { message: 'No pet found with the given ID or no changes made.' },
+                { status: 404 }
             );
         }
-    } catch (error) {
-        console.error('Invalid request payload:', error);
+
         return NextResponse.json(
-            { message: 'Invalid request. Please check the payload.' },
-            { status: 400 }
+            { message: 'Pet updated successfully!' },
+            { status: 200 }
+        );
+    } catch (error) {
+        console.error('Error updating the pet:', error);
+        return NextResponse.json(
+            { message: 'Failed to update pet.' },
+            { status: 500 }
         );
     }
 }
