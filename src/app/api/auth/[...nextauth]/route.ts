@@ -27,7 +27,7 @@ interface GoogleProfile extends Profile {
   sub?: string;
 }
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt',
   },
@@ -89,11 +89,39 @@ const authOptions: NextAuthOptions = {
       return true;
     },
     async session({ session, token }) {
+      // Ensure token is available
       if (token) {
+        // Set initial user fields from token
         session.user.id = token.id as string;
         session.user.image = token.image as string | null;
         session.user.userType = token.userType as string;
+    
+        // If user ID is available in token, fetch updated user data from the database
+        if (token.id) {
+          try {
+            const { db } = await connectToDatabase();
+            const userDoc = await db.collection('users').findOne({ _id: token.id });
+    
+            if (userDoc) {
+              // Update the session with the latest user data from the database
+              session.user = {
+                id: userDoc._id.toString(),
+                name: userDoc.name,
+                email: userDoc.email,
+                image: userDoc.image,
+                userType: userDoc.userType, // Add this if you want to store userType from DB
+                // Include any other fields you want
+              };
+    
+              // Update the token with the latest user data as well
+              token.user = { ...session.user }; // Keep token up-to-date with user data
+            }
+          } catch (error) {
+            console.error('Error fetching user data from database:', error);
+          }
+        }
       }
+    
       return session;
     },
     async jwt({ token, user, account, profile }) {
