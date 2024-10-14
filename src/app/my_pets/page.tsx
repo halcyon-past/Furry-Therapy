@@ -72,7 +72,7 @@ export default function UserPets() {
     };
 
     const handleEdit = (petId: string) => {
-        console.log("Edit pet with ID:", petId);
+        router.push(`/edit_pet/${petId}`);
     };
 
     return (
