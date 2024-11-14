@@ -78,6 +78,8 @@ const authOptions: NextAuthOptions = {
               image: (profile as GoogleProfile).picture,
               bio: null, // Initialize only when creating a new user
               needs: [], // Initialize only when creating a new user
+              likedPets: [], // Initialize only when creating a new user
+              dislikedPets: [], // Initialize only when creating a new user
               userType: 'default', // Initialize with a default userType
             },
             $setOnInsert: { createdAt: new Date() }, // Ensure createdAt is set on insert
