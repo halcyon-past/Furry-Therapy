@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { sortByAdjectiveMatches } from '@/utils/petUtils';
 import { Heart, X, MapPin, Cake, Weight, Syringe, PawPrint } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
