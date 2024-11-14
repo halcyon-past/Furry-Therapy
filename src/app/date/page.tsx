@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 interface Animal {
+  _id: string;
   name: string;
   age: number;
   species: string;
@@ -131,14 +132,58 @@ export default function Date() {
     setCurrentAnimalIndex((prevIndex) => (prevIndex + 1) % animals.length);
   };
 
-  const handleLike = () => {
-    console.log(`Liked ${currentAnimal.name}!`);
-    goToNextAnimal();
+  const handleLike = async () => {
+    try {
+      await fetch('/api/add_liked_pet', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: session?.user?.email,
+          petId: currentAnimal._id,
+        }),
+      });
+      console.log(`Liked ${currentAnimal.name}!`);
+      goToNextAnimal();
+    } catch (error) {
+      console.error('Error liking the pet:', error);
+    }
+
+    try {
+      await fetch('/api/add_customer', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: session?.user?.email,
+          petId: currentAnimal._id,
+        }),
+      });
+      console.log(`Added ${currentAnimal.name} to your pets!`);
+    }catch (error) {
+      console.error('Error adding the pet:', error);
+    }
   };
 
-  const handleDislike = () => {
-    console.log(`Disliked ${currentAnimal.name}!`);
-    goToNextAnimal();
+  const handleDislike = async () => {
+    try {
+      await fetch('/api/add_disliked_pet', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: session?.user?.email,
+          petId: currentAnimal._id,
+        }),
+      });
+      console.log(`Disliked ${currentAnimal.name}!`);
+      goToNextAnimal();
+    } catch (error) {
+      console.error('Error disliking the pet:', error);
+    }
   };
 
   return (

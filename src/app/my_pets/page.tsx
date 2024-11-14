@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
-import { Edit2, Trash2, MapPin } from "lucide-react";
+import { Edit2, Trash2, MapPin, Heart } from "lucide-react";
 
 interface Pet {
     _id: string;
@@ -18,13 +18,16 @@ interface Pet {
     personalityTraits: string[];
     interests: string[];
     favoriteFoods: string[];
+    customers: string[];  // customers as an array of email addresses
 }
 
 export default function UserPets() {
     const { data: session } = useSession();
     const router = useRouter();
     const [pets, setPets] = useState<Pet[]>([]);
-
+    const [selectedPetId, setSelectedPetId] = useState<string | null>(null);
+    const [customers, setCustomers] = useState<string[]>([]);  // Array of email addresses
+    
     useEffect(() => {
         const fetchPets = async () => {
             try {
@@ -75,6 +78,15 @@ export default function UserPets() {
         router.push(`/edit_pet/${petId}`);
     };
 
+    const handleHeartClick = (petId: string) => {
+        // Find the pet by its ID and set the customers from that pet's data
+        const selectedPet = pets.find(pet => pet._id === petId);
+        if (selectedPet) {
+            setCustomers(selectedPet.customers);  // Directly set the array of emails
+        }
+        setSelectedPetId(petId); // Store selected pet id for later use
+    };
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col items-center p-8">
             <h1 className="text-4xl font-semibold text-gray-800 mb-12">Your Furry Friends</h1>
@@ -121,6 +133,12 @@ export default function UserPets() {
                                         <Edit2 size={20} />
                                     </button>
                                     <button
+                                        className="text-pink-500 hover:text-pink-600 transition-colors p-2 rounded-full hover:bg-pink-50"
+                                        onClick={() => handleHeartClick(pet._id)}
+                                    >
+                                        <Heart size={20} />
+                                    </button>
+                                    <button
                                         className="text-red-500 hover:text-red-600 transition-colors p-2 rounded-full hover:bg-red-50"
                                         onClick={() => handleDelete(pet._id)}
                                     >
@@ -132,6 +150,32 @@ export default function UserPets() {
                     ))
                 )}
             </div>
+
+            {/* Popup for displaying customers */}
+            {selectedPetId && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                    <div className="bg-white p-6 rounded-lg w-1/3">
+                        <h2 className="text-xl font-semibold mb-4">Customers for this Pet</h2>
+                        {customers.length > 0 ? (
+                            <ul>
+                                {customers.map((email, index) => (
+                                    <li key={index} className="mb-2 text-gray-700">
+                                        {email}
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p className="text-gray-600">No current customers</p>
+                        )}
+                        <button
+                            className="mt-4 bg-gray-500 text-white px-4 py-2 rounded-full hover:bg-gray-600"
+                            onClick={() => setSelectedPetId(null)} // Close the popup
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
