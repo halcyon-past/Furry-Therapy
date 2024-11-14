@@ -1,12 +1,10 @@
 "use client";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Heart, X, MapPin, Cake, Weight, Syringe, PawPrint } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { animals } from '@/utils/dummyData';
 
-// Define an interface for the Animal type
 interface Animal {
   name: string;
   age: number;
@@ -63,7 +61,7 @@ const DateCard: React.FC<DateCardProps> = ({ animal }) => (
           <PawPrint size={20} className="mr-2" />Personality
         </h2>
         <div className="flex flex-wrap gap-2">
-          {animal.personalityTraits.map((trait: string, index: number) => (
+          {animal.personalityTraits.map((trait, index) => (
             <span key={index} className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">{trait}</span>
           ))}
         </div>
@@ -71,7 +69,7 @@ const DateCard: React.FC<DateCardProps> = ({ animal }) => (
       <div className="mb-4">
         <h2 className="font-semibold text-lg mb-2">Interests</h2>
         <div className="flex flex-wrap gap-2">
-          {animal.interests.map((interest: string, index: number) => (
+          {animal.interests.map((interest, index) => (
             <span key={index} className="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm">{interest}</span>
           ))}
         </div>
@@ -79,7 +77,7 @@ const DateCard: React.FC<DateCardProps> = ({ animal }) => (
       <div>
         <h2 className="font-semibold text-lg mb-2">Favorite Foods</h2>
         <div className="flex flex-wrap gap-2">
-          {animal.favoriteFoods.map((food: string, index: number) => (
+          {animal.favoriteFoods.map((food, index) => (
             <span key={index} className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">{food}</span>
           ))}
         </div>
@@ -89,21 +87,42 @@ const DateCard: React.FC<DateCardProps> = ({ animal }) => (
 );
 
 export default function Date() {
+  const [animals, setAnimals] = useState<Animal[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const { data: session, status } = useSession();
   const router = useRouter();
   const [currentAnimalIndex, setCurrentAnimalIndex] = React.useState(0);
 
-  if (status === 'loading') {
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/');
+    }
+  }, [status, router]);
+
+  useEffect(() => {
+    const fetchAnimals = async () => {
+      try {
+        const response = await fetch('/api/fetch_all_pets');
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+        const data = await response.json();
+        setAnimals(data.pets);
+      } catch (error) {
+        console.error('Failed to fetch animals:', error);
+        setError('Failed to fetch animals');
+      }
+    };
+
+    fetchAnimals();
+  }, []);
+
+  if (status === 'loading' || animals.length === 0) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
       </div>
     );
-  }
-
-  if (status === 'unauthenticated') {
-    router.push('/');
-    return null;
   }
 
   const currentAnimal = animals[currentAnimalIndex];
@@ -128,7 +147,6 @@ export default function Date() {
         <DateCard animal={currentAnimal} />
       </div>
       
-      {/* Fixed buttons at the bottom */}
       <div className="fixed bottom-0 left-0 right-0 flex justify-center items-center space-x-8 p-4 bg-gradient-to-t from-pink-100 to-transparent">
         <button 
           onClick={handleDislike}
